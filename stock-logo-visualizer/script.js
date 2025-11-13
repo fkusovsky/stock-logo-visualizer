@@ -1,67 +1,26 @@
-let previousValues = {};
+const grid = document.getElementById('grid');
 
-// Create one logo block
-async function createStockLogo(stock) {
-  const value = await fetchStockValue(stock.symbol);
-  const prev = previousValues[stock.symbol];
-  previousValues[stock.symbol] = parseFloat(value);
+stocks.forEach(stock => {
+  const logoEl = document.createElement('div');
+  logoEl.className = 'logo';
 
-  const logo = document.createElement('div');
-  logo.className = 'logo';
+  const maskEl = document.createElement('div');
+  maskEl.className = 'logo-mask';
+  
+  // Dynamically set mask URL for this logo
+  maskEl.style.setProperty('--logo-url', `url(${stock.logo})`);
 
-  // Determine direction of change
-  if (prev && value !== "N/A") {
-    if (parseFloat(value) > prev) logo.classList.add('up');
-    else if (parseFloat(value) < prev) logo.classList.add('down');
-  }
-
-  // Repeated stock price numbers
   const valueLayer = document.createElement('div');
   valueLayer.className = 'value-layer';
-  for (let i = 0; i < 120; i++) {
-    const text = document.createElement('div');
-    text.className = 'value-text';
-    const sizeClass = Math.random() > 0.7 ? 'large' : Math.random() > 0.4 ? 'medium' : 'small';
-    text.classList.add(sizeClass);
-    text.textContent = value;
-    valueLayer.appendChild(text);
-  }
-  logo.appendChild(valueLayer);
+  stock.values.forEach(v => {
+    const span = document.createElement('span');
+    span.className = `value-text ${v.size}`;
+    span.textContent = v.value;
+    valueLayer.appendChild(span);
+  });
 
-  // Apply SVG mask (logo shape)
-  const maskLayer = document.createElement('div');
-  maskLayer.className = 'logo-mask';
-  maskLayer.style.maskImage = `url('logos/${stock.symbol}.svg')`;
-  maskLayer.style.webkitMaskImage = `url('logos/${stock.symbol}.svg')`;
-  maskLayer.style.background = 'white';
-  logo.appendChild(maskLayer);
+  logoEl.appendChild(maskEl);
+  logoEl.appendChild(valueLayer);
+  grid.appendChild(logoEl);
+});
 
-  // Label
-  const label = document.createElement('div');
-  label.className = 'label';
-  label.textContent = `${stock.name} (${stock.symbol}) - $${value}`;
-  logo.appendChild(label);
-
-  // Animate price reaction (fade back to neutral)
-  if (logo.classList.contains('up') || logo.classList.contains('down')) {
-    setTimeout(() => {
-      logo.classList.remove('up', 'down');
-    }, 2000);
-  }
-
-  return logo;
-}
-
-// Render all logos in grid
-async function renderGrid() {
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  for (const stock of STOCKS) {
-    const logo = await createStockLogo(stock);
-    grid.appendChild(logo);
-  }
-}
-
-// Initial render and auto-refresh every 30s
-renderGrid();
-setInterval(renderGrid, 30000);
