@@ -1,15 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stock Logo Visualizer</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Stock Logos Mask</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    border: 1px solid #333;
+  }
+</style>
 </head>
 <body>
-  <div id="grid"></div>
+<canvas id="stockCanvas" width="800" height="400"></canvas>
+<script>
+const canvas = document.getElementById('stockCanvas');
+const ctx = canvas.getContext('2d');
 
-  <script src="stocks.js"></script>
-  <script src="script.js"></script>
+// Example stock data
+const stocks = [
+  { logo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Apple_logo_black.svg', value: 185 },
+  { logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg', value: 320 },
+  { logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Google_logo.svg', value: 130 },
+  { logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Netflix_icon.svg', value: 450 },
+  { logo: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Amazon_logo.svg', value: 110 },
+  { logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Tesla_logo.png', value: 250 }
+];
+
+const rectWidth = 120;
+const rectHeight = 200;
+const spacing = 20;
+
+stocks.forEach((stock, i) => {
+  const x = i * (rectWidth + spacing) + 50;
+  const y = 100;
+
+  // Draw gray rectangle
+  ctx.fillStyle = '#666';
+  ctx.fillRect(x, y, rectWidth, rectHeight);
+
+  // Draw stock value
+  ctx.fillStyle = '#aaa';
+  ctx.font = '20px Arial';
+  ctx.fillText(stock.value, x + 10, y + rectHeight - 20);
+
+  // Load and mask logo
+  const img = new Image();
+  img.crossOrigin = "anonymous"; // Needed for external SVG
+  img.src = stock.logo;
+  img.onload = () => {
+    ctx.save();
+    // Set clipping region to rectangle
+    ctx.beginPath();
+    ctx.rect(x, y, rectWidth, rectHeight);
+    ctx.clip();
+
+    // Draw logo inside the rectangle
+    ctx.drawImage(img, x, y, rectWidth, rectHeight);
+    ctx.restore();
+  };
+});
+</script>
 </body>
 </html>
