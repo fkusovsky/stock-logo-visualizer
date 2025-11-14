@@ -17,7 +17,7 @@ const stocks = [
   },
   {
     name: "Nvidia",
-    logo: "logos/nvidia.svg",
+    logo: "logos/google.svg",
     values: [ { value: 890, size: "large" }, { value: 870, size: "medium" }, { value: 860, size: "small" } ]
   },
   {
@@ -27,7 +27,7 @@ const stocks = [
   },
   {
     name: "Amazon",
-    logo: "logos/amazon.svg",
+    logo: "logos/adobe.svg",
     values: [ { value: 175, size: "large" }, { value: 172, size: "medium" }, { value: 170, size: "small" } ]
   }
 ];
