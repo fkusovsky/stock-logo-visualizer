@@ -1,29 +1,33 @@
-// Selected companies
-const STOCKS = [
-  { symbol: 'TSLA', name: 'Tesla' },
-  { symbol: 'MSFT', name: 'Microsoft' },
-  { symbol: 'META', name: 'Meta' },
-  { symbol: 'GOOGL', name: 'Google' },
-  { symbol: 'ADBE', name: 'Adobe' },
-  { symbol: 'AAPL', name: 'Apple' }
-];
-
-// Your Finnhub API key
-const FINNHUB_API_KEY = "d4an7qhr01qseda2fj0gd4an7qhr01qseda2fj10";
-
-// API URL template
-const API_URL = symbol =>
-  `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
-
-// Fetch live stock value
-async function fetchStockValue(symbol) {
-  try {
-    const res = await fetch(API_URL(symbol));
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return data.c ? data.c.toFixed(2) : "N/A";
-  } catch (err) {
-    console.error(`Error fetching ${symbol}:`, err);
-    return "N/A";
+// stocks.js
+const stocks = [
+  {
+    name: "Apple",
+    logo: "logos/apple.svg",
+    values: [ { value: 185, size: "large" }, { value: 182, size: "medium" }, { value: 180, size: "small" } ]
+  },
+  {
+    name: "Microsoft",
+    logo: "logos/ms.svg",
+    values: [ { value: 320, size: "large" }, { value: 315, size: "medium" }, { value: 310, size: "small" } ]
+  },
+  {
+    name: "Tesla",
+    logo: "logos/tesla.svg",
+    values: [ { value: 215, size: "large" }, { value: 210, size: "medium" }, { value: 205, size: "small" } ]
+  },
+  {
+    name: "Nvidia",
+    logo: "logos/nvidia.svg",
+    values: [ { value: 890, size: "large" }, { value: 870, size: "medium" }, { value: 860, size: "small" } ]
+  },
+  {
+    name: "Meta",
+    logo: "logos/meta.svg",
+    values: [ { value: 355, size: "large" }, { value: 350, size: "medium" }, { value: 345, size: "small" } ]
+  },
+  {
+    name: "Amazon",
+    logo: "logos/amazon.svg",
+    values: [ { value: 175, size: "large" }, { value: 172, size: "medium" }, { value: 170, size: "small" } ]
   }
-}
+];
