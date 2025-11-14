@@ -28,22 +28,16 @@ body {
   transition: background 0.6s ease;
 }
 
-/* 🔧 FIXED MASK CLIPPING */
 .logo-mask {
   position: absolute;
   inset: 0;
-  background: white;
-
-  mask-image: var(--logo-url);
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
-
-  -webkit-mask-image: var(--logo-url);
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-
+  background: white;
   transition: background 0.6s ease;
 }
 
@@ -80,16 +74,8 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* 🔄 price change animations */
 .logo.up { background: rgba(0, 255, 100, 0.1); }
 .logo.down { background: rgba(255, 0, 100, 0.1); }
 
-.logo.up .value-text {
-  color: #00ff66;
-  opacity: 0.3;
-}
-
-.logo.down .value-text {
-  color: #ff3366;
-  opacity: 0.3;
-}
+.logo.up .value-text { color: #00ff66; opacity: 0.3; }
+.logo.down .value-text { color: #ff3366; opacity: 0.3; }
